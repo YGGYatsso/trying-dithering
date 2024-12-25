@@ -1,6 +1,6 @@
 # trying-dithering
 
-## lets see what we can do
-## first I will try to make some changes to code 
-## & try exchange of code files.
+
+![](img/floyd_stein_dither.jpg)
+![](img/bayer.jpg)
 
