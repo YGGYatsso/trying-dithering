@@ -1,4 +1,4 @@
-# trying-dithering
+### RGB image
 
 
 `image                                           floyd stein dither(rgb)`
@@ -10,7 +10,7 @@
 
 
 
-
+### Grayscale image
 
 `floyd stein dither                              bayer 2X2 threshold(pixel intensity)`
 
