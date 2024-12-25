@@ -79,8 +79,8 @@ def find_closest_palette_color(pixel):
 if __name__ == '__main__':
     dir_path="/Users/ygyatso/Documents/some pics/"
     images_list=os.listdir(dir_path)
-    get_image_name=images_list[4]
-    #index no.10,12,13
+    get_image_name=images_list[10]
+
     image_path=os.path.join(dir_path,get_image_name)
     
     color_img=cv.imread(image_path)
@@ -93,19 +93,15 @@ if __name__ == '__main__':
 
     FS_dither=floyd_steinberg_dither(img,h,w)
     bayer=bayer2x2(img,h,w)
-    print(FS_dither.max())
-    print(FS_dither.min())
-    # cv.imshow("FS_DITHER_NEG",255-FS_dither)
-    # cv.imshow("FS_DITHER",FS_dither)
-    # cv.imshow("bayerfilter",bayer)
-    # cv.imshow("image",img)
-
-   
-#    cv.imshow("img",img)
-#    cv.imshow("thin",thin_edge)
-#    cv.imshow("final",final_edge)
     
-#    cv.waitKey(0) 
+    cv.imshow("FS_DITHER_NEG",255-FS_dither) 
+    #Ques. Why i need to change the value of pixels in the output ?? to get expected output ??
+    #cv.imshow("FS_DITHER",FS_dither)
+    cv.imshow("bayerfilter",bayer)
+    cv.imshow("image",img)
+
+    
+    cv.waitKey(0) 
     
     
     
