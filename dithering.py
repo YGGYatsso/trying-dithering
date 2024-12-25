@@ -3,13 +3,9 @@ import cv2 as cv
 import torch 
 import os
 import copy
-# what is dithering ??
-#() error diffusion ) ,i.e discrepancy in the pixel value, 
-# is passed onto the next pixel. 
 
-#there are many versions of dethering ( ordered distribution of random noise.)
 
-# one can use bayer matrix for ordered dithering. 
+# one can use bayer matrix for thresholding.
 def bayer2x2(img,h,w):
     """
     Applying 2X2bayer thresholding.
