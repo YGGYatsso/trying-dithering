@@ -4,7 +4,7 @@
 `image                                           floyd stein dither(rgb)`
 
 ![](img/pic3.jpg)
-![](img/colored_dither.jpg)
+![](img/RGB_dither.jpg)
 
 
 

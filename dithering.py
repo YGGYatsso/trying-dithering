@@ -5,7 +5,7 @@ import os
 import copy
 
 
-# one can use bayer matrix for thresholding.
+
 def bayer2x2(img,h,w):
     """
     Applying 2X2bayer thresholding.
@@ -39,35 +39,40 @@ def floyd_steinberg_dither(img,h,w):
     h,w   : Height and Width of the image, respectively.
     """
     
-    img_copy=copy.deepcopy(img)
+    img_copy=copy.deepcopy(img).astype(np.float64)
     # dither_img=np.zeros((h,w))
-    
+    #print(img_copy.dtype)
     for i in range(h):
         for j in range (w):
             # going from left to right and top to bottom. 
             #print(i,j,"\n")
+        
+            
             old_pixel=img_copy[i][j]
             new_pixel=find_closest_palette_color(old_pixel)
-            img_copy[i][j]=new_pixel*255.0 # pixel value is updated. 
+            img_copy[i][j]=new_pixel# pixel value is updated. 
             
-            quant_error=old_pixel-new_pixel
-            
+            quant_error=old_pixel-(new_pixel)
+          
             if j+1<w:
-                img_copy[i][j+1]=img_copy[i][j+1]+quant_error*(7/16) 
+                img_copy[i][j+1]=img_copy[i][j+1]+quant_error*(7 /16) #7
             
             if i+1<h and j+1 <w :
-                img_copy[i+1][j+1]=img_copy[i+1][j+1]+(quant_error*(1/16))
-      
-            if i+1<h:
-                img_copy[i+1][j]=img_copy[i+1][j]+(quant_error*(5/16))
- 
-            if i+1 <h and j-1 >=0 :
-                img_copy[i+1][j-1]=img_copy[i+1][j-1]+(quant_error*(3/16))
+                img_copy[i+1][j+1]=img_copy[i+1][j+1]+(quant_error*(1/16))#1
             
+            if i+1<h:
+                img_copy[i+1][j]=img_copy[i+1][j]+(quant_error*(5/16))#5
+          
+            if i+1 <h and j-1 >=0 :
+                img_copy[i+1][j-1]=img_copy[i+1][j-1]+(quant_error*(3/16))#3
+              
+                
+   
+    
     return img_copy
 
 def find_closest_palette_color(pixel):
-    return  round(pixel/255)
+    return  round(pixel/255)*255.0
 
 
 # we also need to try color dithering.
@@ -76,7 +81,7 @@ if __name__ == '__main__':
     dir_path="/Users/ygyatso/Documents/some pics/"
     images_list=os.listdir(dir_path)
     get_image_name=images_list[10]
-
+    #index no.10,12,13
     image_path=os.path.join(dir_path,get_image_name)
     
     color_img=cv.imread(image_path)
@@ -87,16 +92,25 @@ if __name__ == '__main__':
     h,w=img.shape
     
 
-    FS_dither=floyd_steinberg_dither(img,h,w)
+    FS_dither=floyd_steinberg_dither(img,h,w).astype(np.uint8)
     bayer=bayer2x2(img,h,w)
+     
+    # FS_b=floyd_steinberg_dither(color_img[:,:,0],h,w).astype(np.uint8)
+    # FS_g=floyd_steinberg_dither(color_img[:,:,1],h,w).astype(np.uint8)
+    # FS_r=floyd_steinberg_dither(color_img[:,:,2],h,w).astype(np.uint8)
     
-    cv.imshow("FS_DITHER_NEG",255-FS_dither) 
-    #Ques. Why i need to change the value of pixels in the output ?? to get expected output ??
-    #cv.imshow("FS_DITHER",FS_dither)
-    cv.imshow("bayerfilter",bayer)
-    cv.imshow("image",img)
+    # color_dithered=np.zeros(color_img.shape)
+    # color_dithered[:,:,0]=FS_b
+    # color_dithered[:,:,1]=FS_g
+    # color_dithered[:,:,2]=FS_r
+    
 
-    
+    #cv.imwrite('RGB_dither.jpg',color_dithered)
+    cv.imshow("FS_DITHER",(FS_dither))
+    cv.imshow("bayerfilter",bayer)
+    # cv.imshow("colordither",color_dithered)
+    cv.imshow("image",img)     
+  
     cv.waitKey(0) 
     
     
